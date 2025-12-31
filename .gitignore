@@ -1,5 +1,51 @@
+# Python virtual environment
 .venv/
+venv/
+env/
+
+# Python cache and compiled files
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+.Python
+
+# Jupyter notebooks
 .ipynb_checkpoints/
-data/videos/*
+*.ipynb_checkpoints
+
+# Model weights (too large for git)
+*.pt
+*.pth
+*.onnx
+*.weights
+
+# Data directories
+data/
+datasets/
+
+# Output directories
+outputs/
+runs/
+results/
+
+# IDE settings
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Environment variables
+.env
+.env.local
+
+# Full requirements backup
+requirements-full.txt
