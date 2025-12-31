@@ -1,0 +1,38 @@
+# YOLOv8 Object Detection Configuration
+# Use this file to set default parameters for your detection runs
+# Usage: python -m src.main --config config.yaml
+
+# Detection mode: 'image' or 'webcam'
+mode: image
+
+# Path to YOLO model file
+# Available models: yolov8n.pt (nano), yolov8s.pt (small), yolov8m.pt (medium), etc.
+model: yolov8n.pt
+
+# Image inference settings
+image: data/images/memekid.jpg
+
+# Webcam settings
+cam_index: 0
+
+# Detection parameters
+conf: 0.5  # Confidence threshold (0.0 - 1.0)
+
+# Output settings
+# Uncomment to save annotated outputs
+# output: outputs/
+
+# Example configurations for different use cases:
+
+# High-accuracy image detection:
+# mode: image
+# model: yolov8m.pt
+# conf: 0.6
+# output: outputs/high_quality/
+
+# Fast webcam detection:
+# mode: webcam
+# model: yolov8n.pt
+# conf: 0.4
+# cam_index: 0
+# output: outputs/webcam_recordings/
