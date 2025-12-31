@@ -2,6 +2,16 @@
 
 Real-time object detection using Ultralytics YOLOv8 with support for image inference and webcam streaming.
 
+## 🚀 Quick Demo
+
+See detection results in the [Example Output](#example-output) section below!
+
+**Key Stats:**
+- ⚡ 1.15s inference time on CPU
+- 📊 90% detection confidence
+- 🎯 Real-time FPS tracking
+- 💾 Auto-save annotated outputs
+
 ---
 
 ## Features
@@ -26,13 +36,16 @@ Real-time object detection using Ultralytics YOLOv8 with support for image infer
 yolov8-object-detection/
 ├── src/
 │   └── main.py          # Main detection script with logging & metrics
+├── examples/            # Demo images showing input/output
+│   ├── input_example.jpg
+│   └── output_example.jpg
 ├── data/
-│   ├── images/          # Input images
-│   └── videos/          # Input videos (optional)
-├── outputs/             # Saved detection results (auto-created)
+│   ├── images/          # Input images (gitignored)
+│   └── videos/          # Input videos (optional, gitignored)
+├── outputs/             # Saved detection results (auto-created, gitignored)
 ├── config.yaml          # Configuration file for parameters
-├── requirements.txt     # Python dependencies
-├── .gitignore
+├── requirements.txt     # Minimal core dependencies
+├── .gitignore           # Comprehensive Python/ML exclusions
 └── README.md
 ```
 
@@ -149,25 +162,51 @@ python -m src.main --mode webcam --verbose --output outputs/
 
 ## Example Output
 
-**Terminal output with logging:**
+### Visual Results
+
+**Input Image** → **Detection Output**
+
+<table>
+<tr>
+<td><img src="examples/input_example.jpg" width="350"/></td>
+<td><img src="examples/output_example.jpg" width="350"/></td>
+</tr>
+<tr>
+<td align="center">Original Image</td>
+<td align="center">YOLOv8 Detection (1 person detected)</td>
+</tr>
+</table>
+
+### Terminal Output (Actual Run)
+
 ```
-2025-12-31 14:30:15 - INFO - Loading model: yolov8n.pt
-2025-12-31 14:30:16 - INFO - Running inference on image: data/images/memekid.jpg
-2025-12-31 14:30:17 - INFO - Inference completed in 0.245s
-2025-12-31 14:30:17 - INFO - Detected: person with confidence 0.92
-2025-12-31 14:30:17 - INFO - Detected: bicycle with confidence 0.87
-2025-12-31 14:30:17 - INFO - Detected: car with confidence 0.80
-2025-12-31 14:30:17 - INFO - Total detections: 3
-2025-12-31 14:30:17 - INFO - Saved annotated image to: outputs/memekid_detected_20251231_143017.jpg
-2025-12-31 14:30:17 - INFO - Press any key to close the window...
+2025-12-31 14:39:11 - INFO - Starting YOLOv8 Object Detection in image mode
+2025-12-31 14:39:11 - INFO - Loading model: yolov8n.pt
+2025-12-31 14:39:11 - INFO - Running inference on image: data/images/memekid.jpg
+2025-12-31 14:39:12 - INFO - Inference completed in 1.150s
+2025-12-31 14:39:12 - INFO - Detected: person with confidence 0.90
+2025-12-31 14:39:12 - INFO - Total detections: 1
+2025-12-31 14:39:12 - INFO - Saved annotated image to: outputs/memekid_detected_20251231_143912.jpg
+2025-12-31 14:39:12 - INFO - Press any key to close the window...
 ```
 
-**Webcam mode shows:**
-- Live FPS counter on screen
-- Inference time per frame (in milliseconds)
-- Bounding boxes with class labels
+### Performance Metrics
 
-An annotated detection window will appear automatically.
+| Metric | Value |
+|--------|-------|
+| Model | YOLOv8n (Nano) |
+| Inference Time | 1.150s |
+| Detections | 1 person @ 90% confidence |
+| Image Size | 176KB input → 302KB annotated |
+
+### Webcam Mode Features
+
+- **Live FPS counter** displayed on screen
+- **Inference time** per frame (in milliseconds)
+- **Bounding boxes** with class labels and confidence scores
+- **Optional video recording** to outputs directory
+
+An annotated detection window will appear automatically in both modes.
 
 ---
 
