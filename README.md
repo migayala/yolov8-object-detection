@@ -2,6 +2,16 @@
 
 Real-time object detection using Ultralytics YOLOv8 with support for image inference and webcam streaming.
 
+## 🎯 Project Focus
+
+This project demonstrates **production ML deployment infrastructure** and **MLOps best practices**, focusing on:
+- Containerized deployment for consistent environments across cloud, edge, and local systems
+- Performance optimization for CPU-only inference (0.063s latency)
+- Operational considerations: configurable parameters, monitoring, and automated output management
+- Modular architecture designed for extensibility to custom-trained models
+
+Built with insights from manufacturing environments where edge deployment, offline operation, and non-technical operator usability are critical constraints.
+
 ## 🚀 Quick Demo
 
 See detection results in the [Example Output](#example-output) section below!
