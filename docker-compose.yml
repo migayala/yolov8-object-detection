@@ -1,0 +1,31 @@
+services:
+  yolov8-detector:
+    build: .
+    image: yolov8-object-detection:latest
+    container_name: yolov8-detector
+
+    # Mount volumes for data and outputs
+    volumes:
+      - ./data:/app/data
+      - ./outputs:/app/outputs
+      - ./yolov8n.pt:/app/yolov8n.pt  # Mount model weights
+
+    # Environment variables
+    environment:
+      - PYTHONUNBUFFERED=1
+
+    # For webcam access (optional, requires additional setup)
+    # devices:
+    #   - /dev/video0:/dev/video0
+
+    # Override default command
+    # Examples:
+    # docker-compose run yolov8-detector python -m src.main --mode image --image data/images/memekid.jpg
+    # docker-compose run yolov8-detector python -m src.main --mode webcam
+
+    command: python -m src.main --config config.yaml
+
+# Example usage:
+# Build: docker-compose build
+# Run with default config: docker-compose up
+# Run custom command: docker-compose run yolov8-detector python -m src.main --mode image --image data/images/test.jpg --output outputs/

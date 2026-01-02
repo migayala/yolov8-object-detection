@@ -22,11 +22,12 @@ See detection results in the [Example Output](#example-output) section below!
 - **Performance metrics**: FPS and inference time tracking
 - **Save outputs**: Export annotated images and videos
 - **YAML configuration support** for reproducible experiments
+- **Docker support** for containerized deployment
 - Modular code structure (`src/main.py`)
 - Organized project layout for ML workflows
 - Uses Ultralytics YOLOv8 (Nano version by default)
-- Reproducible environment via `requirements.txt`
-- Designed for use with VS Code and virtual environments
+- Reproducible environment via `requirements.txt` and Docker
+- Production-ready with volume mounting and environment config
 - Easy to extend (tracking, fine-tuning, UI apps, etc.)
 
 ---
@@ -45,6 +46,9 @@ yolov8-object-detection/
 ├── outputs/             # Saved detection results (auto-created, gitignored)
 ├── config.yaml          # Configuration file for parameters
 ├── requirements.txt     # Minimal core dependencies
+├── Dockerfile           # Docker container definition
+├── docker-compose.yml   # Docker Compose configuration
+├── .dockerignore        # Docker build exclusions
 ├── .gitignore           # Comprehensive Python/ML exclusions
 └── README.md
 ```
@@ -53,27 +57,49 @@ yolov8-object-detection/
 
 ## Installation & Setup
 
-### 1. Clone the repository
+### Option 1: Docker (Recommended for Production)
+
+**Prerequisites:** Docker and Docker Compose installed
+
 ```bash
-git clone git@github.com:YOUR_USERNAME/YOUR_REPO_NAME.git
-cd YOUR_REPO_NAME
+# 1. Clone the repository
+git clone git@github.com:migayala/yolov8-object-detection.git
+cd yolov8-object-detection
+
+# 2. Build the Docker image
+docker-compose build
+
+# 3. Run detection on an image
+docker-compose run yolov8-detector python -m src.main \
+  --mode image \
+  --image data/images/memekid.jpg \
+  --output outputs/
+
+# 4. Run with custom config
+docker-compose up
 ```
 
-### 2. Create and activate a virtual environment
+**Benefits:**
+- ✅ No dependency conflicts
+- ✅ Consistent environment across machines
+- ✅ Easy deployment to cloud (AWS, GCP, Azure)
+- ✅ Production-ready setup
+
+### Option 2: Local Python Environment
+
+**Prerequisites:** Python 3.12+
+
 ```bash
+# 1. Clone the repository
+git clone git@github.com:migayala/yolov8-object-detection.git
+cd yolov8-object-detection
+
+# 2. Create and activate a virtual environment
 python3 -m venv .venv
 source .venv/bin/activate
-```
 
-### 3. Install dependencies
-```bash
+# 3. Install dependencies
 pip install -r requirements.txt
-```
-
-If you don't have a `requirements.txt` yet, generate one:
-```bash
-pip install ultralytics opencv-python
-pip freeze > requirements.txt
 ```
 
 ---
@@ -210,13 +236,64 @@ An annotated detection window will appear automatically in both modes.
 
 ---
 
+## 🐳 Docker Deployment
+
+### Quick Docker Commands
+
+```bash
+# Build the image
+docker-compose build
+
+# Run image detection
+docker-compose run yolov8-detector python -m src.main \
+  --mode image \
+  --image data/images/memekid.jpg \
+  --output outputs/
+
+# Run with default config
+docker-compose up
+
+# Build and run manually (without docker-compose)
+docker build -t yolov8-detector .
+docker run -v $(pwd)/data:/app/data \
+           -v $(pwd)/outputs:/app/outputs \
+           yolov8-detector python -m src.main --mode image --image data/images/test.jpg
+```
+
+### Volume Mounting
+
+The Docker setup uses volumes for:
+- **Input data**: `./data` → `/app/data`
+- **Outputs**: `./outputs` → `/app/outputs`
+- **Model weights**: `./yolov8n.pt` → `/app/yolov8n.pt`
+
+This allows you to:
+- Process local images without rebuilding
+- Access results on your host machine
+- Use your own model weights
+
+### Production Deployment
+
+Deploy to cloud platforms:
+
+```bash
+# Push to Docker Hub
+docker tag yolov8-detector:latest yourusername/yolov8-detector:latest
+docker push yourusername/yolov8-detector:latest
+
+# Deploy to AWS ECS, Google Cloud Run, or Azure Container Instances
+# Use the pushed image for scalable deployments
+```
+
+---
+
 ## Tech Stack
 
-- Ultralytics YOLOv8
-- OpenCV (cv2)
-- Python 3.10+
-- VS Code (recommended)
-- GitHub SSH workflow
+- **ML/CV**: Ultralytics YOLOv8, PyTorch, OpenCV
+- **Language**: Python 3.12+
+- **Deployment**: Docker, Docker Compose
+- **Config**: YAML
+- **Version Control**: Git, GitHub
 
 ---
 
@@ -227,8 +304,9 @@ An annotated detection window will appear automatically in both modes.
 - Export detection results to a log file
 - Model performance comparison (YOLOv8n, YOLOv8s, YOLOv8m)
 - Fine-tune YOLO on a custom dataset
-- Add a Dockerfile for deployment
 - Create a HuggingFace Spaces demo
+- Add REST API with FastAPI
+- Kubernetes deployment manifests
 
 ---
 
